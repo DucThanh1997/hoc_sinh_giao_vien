@@ -88,7 +88,7 @@ class Student_And_Class(Resource):
             if datetime.datetime.now() > datetime.datetime.strptime(data["exam_date"], "%Y-%m-%d"):
                 return {"messages": "exam date you set is in the past"}, 400
 
-            ## check khóa ngoại
+            # check khóa ngoại
             if ClasssModel.find_by_class_id(class_id=data["class_id"]) is None:
                 return {"messages": err_404.format("class")}, 404
             if UserModel.find_by_user_id(user_id=data["user_id"]) is None:

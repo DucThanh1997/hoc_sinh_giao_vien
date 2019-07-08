@@ -4,6 +4,7 @@ from models.school import SchoolModel
 from messenger import *
 from flask import request
 
+
 class School(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("name", type=str, required=True, help=help.format("name"))

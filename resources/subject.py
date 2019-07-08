@@ -5,6 +5,7 @@ from flask_jwt_extended import jwt_required
 from messenger import *
 from flask import request
 
+
 class Subject(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("name", type=str, required=True, help=help.format("name"))

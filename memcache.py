@@ -25,5 +25,3 @@ print(result)
 #     client1.set('some_key', result)
 
 print(" đây là: ", result)
-
-
