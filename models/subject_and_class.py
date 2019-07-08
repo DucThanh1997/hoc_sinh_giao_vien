@@ -6,8 +6,11 @@ class Subject_And_ClassModel(db.Model):
     __tablename__ = "class_and_subject"
 
     id = db.Column(db.Integer, primary_key=True)
-    class_id = db.Column(db.String(20), db.ForeignKey("class.class_id"), nullable=False)
-    subject_id = db.Column(db.String(80), db.ForeignKey("subject.subject_id"), nullable=False)
+    class_id = db.Column(db.String(20), db.ForeignKey(
+        "class.class_id"), nullable=False)
+    subject_id = db.Column(
+        db.String(80), db.ForeignKey("subject.subject_id"), nullable=False
+    )
     exam_date = db.Column(db.DateTime)
 
     class_4 = db.relationship("ClasssModel")
@@ -19,7 +22,11 @@ class Subject_And_ClassModel(db.Model):
         self.exam_date = exam_date
 
     def json(self):
-        return {"class_id": self.class_id, "subject_id": self.subject_id, "exam_date": self.exam_date}
+        return {
+            "class_id": self.class_id,
+            "subject_id": self.subject_id,
+            "exam_date": self.exam_date,
+        }
 
     def to_json(data):
         if type(data) in (tuple, list):
@@ -52,7 +59,11 @@ class Subject_And_ClassModel(db.Model):
 
     @classmethod
     def find_list_by_class_id(cls, class_id, page, per_page):
-        row_list = cls.query.filter(cls.class_id.like("%" + class_id + "%")).paginate(page, per_page, False).items
+        row_list = (
+            cls.query.filter(cls.class_id.like("%" + class_id + "%"))
+            .paginate(page, per_page, False)
+            .items
+        )
         return row_list
 
     def save_to_db(self):

@@ -1,6 +1,7 @@
 from db import db
 import json as jso
 
+
 class Teacher_And_ClassModel(db.Model):
     __tablename__ = "teacher_and_class"
 
@@ -53,10 +54,18 @@ class Teacher_And_ClassModel(db.Model):
 
     @classmethod
     def find_list_by_class_id(cls, class_id, page, per_page):
-        row_list = cls.query.filter(cls.class_id.like("%" + class_id + "%")).paginate(page, per_page, False).items
+        row_list = (
+            cls.query.filter(cls.class_id.like("%" + class_id + "%"))
+            .paginate(page, per_page, False)
+            .items
+        )
         return row_list
 
     @classmethod
     def find_list_by_user_id(cls, user_id, page, per_page):
-        row_list = cls.query.filter(cls.user_id.like("%" + user_id + "%")).paginate(page, per_page, False).items
+        row_list = (
+            cls.query.filter(cls.user_id.like("%" + user_id + "%"))
+            .paginate(page, per_page, False)
+            .items
+        )
         return row_list

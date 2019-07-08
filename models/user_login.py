@@ -1,7 +1,7 @@
 from db import db
 from passlib.hash import pbkdf2_sha256 as sha256
-from datetime import datetime
 import json as jso
+
 
 class User_LoginModel(db.Model):
     __tablename__ = "user_login"
@@ -12,21 +12,13 @@ class User_LoginModel(db.Model):
 
     user_login_1 = db.relationship("UserModel")
 
-    def __init__(
-        self,
-        user_id,
-        password,
-        username,
-    ):
+    def __init__(self, user_id, password, username):
         self.user_id = user_id
         self.username = username
         self.password = password
 
     def json(self):
-        return {
-            "user_id ": self.user_id,
-            "username": self.username,
-        }
+        return {"user_id ": self.user_id, "username": self.username}
 
     def save_to_db(self):
         db.session.add(self)
@@ -57,7 +49,11 @@ class User_LoginModel(db.Model):
 
     @classmethod
     def find_list_by_username(cls, username, page, per_page):
-        username = cls.query.filter(cls.username.like("%" + username + "%")).paginate(page, per_page, False).items
+        username = (
+            cls.query.filter(cls.username.like("%" + username + "%"))
+            .paginate(page, per_page, False)
+            .items
+        )
         return username
 
     @staticmethod

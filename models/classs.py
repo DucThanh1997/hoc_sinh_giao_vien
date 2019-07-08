@@ -1,12 +1,15 @@
 from db import db
 import json as jso
 
+
 class ClasssModel(db.Model):
     __tablename__ = "class"
 
     class_id = db.Column(db.String(20), primary_key=True)
     name = db.Column(db.String(80))
-    school_id = db.Column(db.String(20), db.ForeignKey("school.school_id"), nullable=False)
+    school_id = db.Column(
+        db.String(20), db.ForeignKey("school.school_id"), nullable=False
+    )
 
     class_1 = db.relationship("SchoolModel")
     class_2 = db.relationship("Student_And_ClassModel")
@@ -57,5 +60,9 @@ class ClasssModel(db.Model):
 
     @classmethod
     def find_list_by_name(cls, name, page, per_page):
-        school_list = cls.query.filter(cls.name.like("%" + name + "%")).paginate(page, per_page, False).items
+        school_list = (
+            cls.query.filter(cls.name.like("%" + name + "%"))
+            .paginate(page, per_page, False)
+            .items
+        )
         return school_list
