@@ -1,6 +1,7 @@
 from db import db
 import json as jso
 
+
 class Student_And_ClassModel(db.Model):
     __tablename__ = "class_and_student"
 
@@ -18,7 +19,11 @@ class Student_And_ClassModel(db.Model):
         self.exam_date = exam_date
 
     def json(self):
-        return {"class_id": self.class_id, "user_id": self.user_id, "exam_date": self.exam_date}
+        return {
+            "class_id": self.class_id,
+            "user_id": self.user_id,
+            "exam_date": self.exam_date,
+        }
 
     def to_json(data):
         if type(data) in (tuple, list):
@@ -51,7 +56,11 @@ class Student_And_ClassModel(db.Model):
 
     @classmethod
     def find_list_by_class_id(cls, class_id, page, per_page):
-        row_list = cls.query.filter(cls.class_id.like("%" + class_id + "%")).paginate(page, per_page, False).items
+        row_list = (
+            cls.query.filter(cls.class_id.like("%" + class_id + "%"))
+            .paginate(page, per_page, False)
+            .items
+        )
         return row_list
 
     def save_to_db(self):

@@ -1,13 +1,16 @@
 from db import db
 import json as jso
 
+
 class MarkModel(db.Model):
     __tablename__ = "mark"
     mark_id = db.Column(db.String(20), primary_key=True)
     exam_date = db.Column(db.DateTime)
     mark = db.Column(db.Integer)
     user_id = db.Column(db.String(80), db.ForeignKey("user.user_id"), nullable=False)
-    subject_id = db.Column(db.String(20), db.ForeignKey("subject.subject_id"), nullable=False)
+    subject_id = db.Column(
+        db.String(20), db.ForeignKey("subject.subject_id"), nullable=False
+    )
     class_id = db.Column(db.String(20), db.ForeignKey("class.class_id"), nullable=False)
 
     mark_2 = db.relationship("UserModel")
@@ -29,7 +32,7 @@ class MarkModel(db.Model):
             "user_id": self.user_id,
             "subject_id": self.subject_id,
             "exam_date": self.exam_date,
-            "class_id": self.class_id
+            "class_id": self.class_id,
         }
 
     def to_json(data):
@@ -43,7 +46,9 @@ class MarkModel(db.Model):
 
     @classmethod
     def find(cls, user_id, subject_id, exam_date):
-        return cls.query.filter_by(user_id=user_id, subject_id=subject_id, exam_date=exam_date).first()
+        return cls.query.filter_by(
+            user_id=user_id, subject_id=subject_id, exam_date=exam_date
+        ).first()
 
     @classmethod
     def find_by_subject(cls, subject_id):

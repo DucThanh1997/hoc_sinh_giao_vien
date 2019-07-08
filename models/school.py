@@ -1,6 +1,7 @@
 from db import db
 import json as jso
 
+
 class SchoolModel(db.Model):
     __tablename__ = "school"
 
@@ -41,7 +42,11 @@ class SchoolModel(db.Model):
 
     @classmethod
     def find_list_by_name(cls, name, page, per_page):
-        school_list = cls.query.filter(cls.name.like("%" + name + "%")).paginate(page, per_page, False).items
+        school_list = (
+            cls.query.filter(cls.name.like("%" + name + "%"))
+            .paginate(page, per_page, False)
+            .items
+        )
         return school_list
 
     def save_to_db(self):

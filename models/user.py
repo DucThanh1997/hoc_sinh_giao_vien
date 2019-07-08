@@ -1,7 +1,7 @@
 from db import db
 from passlib.hash import pbkdf2_sha256 as sha256
-from datetime import datetime
 import json as jso
+
 
 class UserModel(db.Model):
     __tablename__ = "user"
@@ -86,7 +86,11 @@ class UserModel(db.Model):
 
     @classmethod
     def find_list_by_name(cls, name, page, per_page):
-        user_list = cls.query.filter(cls.name.like("%" + name + "%")).paginate(page, per_page, False).items
+        user_list = (
+            cls.query.filter(cls.name.like("%" + name + "%"))
+            .paginate(page, per_page, False)
+            .items
+        )
         return user_list
 
     @staticmethod

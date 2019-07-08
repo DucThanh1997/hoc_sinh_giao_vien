@@ -1,6 +1,7 @@
 from db import db
 import json as jso
 
+
 class ExamModel(db.Model):
     __tablename__ = "exam"
     id = db.Column(db.Integer, primary_key=True)
@@ -8,7 +9,9 @@ class ExamModel(db.Model):
     exam_date = db.Column(db.DateTime)
     exam_start_time = db.Column(db.DateTime)
     exam_time = db.Column(db.Integer)
-    subject_id = db.Column(db.String(20), db.ForeignKey("subject.subject_id"), nullable=False)
+    subject_id = db.Column(
+        db.String(20), db.ForeignKey("subject.subject_id"), nullable=False
+    )
 
     exam_1 = db.relationship("SubjectModel")
 
@@ -40,7 +43,6 @@ class ExamModel(db.Model):
     @classmethod
     def find_by_exam_date_and_subject_id(cls, exam_date, subject_id):
         return cls.query.filter_by(exam_id=exam_date, subject_id=subject_id).all()
-
 
     @classmethod
     def find_all(cls):
