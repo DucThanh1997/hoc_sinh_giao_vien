@@ -37,22 +37,54 @@ def check_if_token_in_blacklist(decrypted_token):
     return decrypted_token["jti"] in BLACK_LIST
 
 
-api.add_resource(Classs, "/class", "/class/<string:class_id>", "/class/<int:page>/<int:per_page>")
+api.add_resource(
+    Classs,
+    "/class",
+    "/class/<string:class_id>",
+    "/class/<int:page>/<int:per_page>"
+)
 
-api.add_resource(Exam, "/exam", "/exam/<int:id>", "/exam/<int:page>/<int:per_page>")
+api.add_resource(
+    Exam,
+    "/exam",
+    "/exam/<int:id>",
+    "/exam/<int:page>/<int:per_page>"
+)
 
-api.add_resource(Subject, "/subject", "/subject/<int:ma_mon>", "/class/<int:page>/<int:per_page>")
+api.add_resource(
+    Subject,
+    "/subject",
+    "/subject/<int:ma_mon>",
+    "/class/<int:page>/<int:per_page>"
+)
 
-api.add_resource(School, "/school", "/school/<int:ma_truong>", "/school/<int:page>/<int:per_page>")
+api.add_resource(
+    School,
+    "/school",
+    "/school/<int:ma_truong>",
+    "/school/<int:page>/<int:per_page>"
+)
 
 api.add_resource(Mark, "/mark", "/mark/<int:ma_diem>")
 
-api.add_resource(User, "/user", "/user/<string:user_id>", "/user/<int:page>/<int:per_page>")
-api.add_resource(UserReg, "/regi", "/regi/<string:class_id>/<int:page>/<int:per_page>")
+api.add_resource(
+    User,
+    "/user",
+    "/user/<string:user_id>",
+    "/user/<int:page>/<int:per_page>"
+)
+api.add_resource(
+    UserReg,
+    "/regi",
+    "/regi/<string:class_id>/<int:page>/<int:per_page>"
+)
 api.add_resource(UserLogin, "/login")
 api.add_resource(UserLogout, "/logout")
 api.add_resource(TokenRefresh, "/refresh")
-api.add_resource(FindMaxScoreBySubject, "/maxscore_subject/<string:subject_id>", )
+api.add_resource(
+    FindMaxScoreBySubject,
+    "/maxscore_subject/<string:subject_id>"
+)
 api.add_resource(FindMaxScoreByClass, "/maxscore_class/<string:class_id>")
 api.add_resource(XemLichThi, "/lichthi/<string:ma>")
 
