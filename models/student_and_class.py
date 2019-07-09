@@ -6,8 +6,16 @@ class Student_And_ClassModel(db.Model):
     __tablename__ = "class_and_student"
 
     id = db.Column(db.Integer, primary_key=True)
-    class_id = db.Column(db.String(20), db.ForeignKey("class.class_id"), nullable=False)
-    user_id = db.Column(db.String(80), db.ForeignKey("user.user_id"), nullable=False)
+    class_id = db.Column(
+        db.String(20),
+        db.ForeignKey("class.class_id"),
+        nullable=False
+    )
+    user_id = db.Column(
+        db.String(80),
+        db.ForeignKey("user.user_id"),
+        nullable=False
+    )
     exam_date = db.Column(db.DateTime)
 
     class_2 = db.relationship("ClasssModel")
@@ -32,7 +40,9 @@ class Student_And_ClassModel(db.Model):
                 res.append(Student_And_ClassModel.json(i))
             return jso.loads(jso.dumps(res, default=str))
         else:
-            return jso.loads(jso.dumps(Student_And_ClassModel.json(data), default=str))
+            return jso.loads(
+                jso.dumps(Student_And_ClassModel.json(data), default=str)
+            )
 
     @classmethod
     def find_row(cls, class_id, user_id):  # vẫn cần giữ

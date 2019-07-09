@@ -26,7 +26,9 @@ class Teacher_And_ClassModel(db.Model):
                 res.append(Teacher_And_ClassModel.json(i))
             return jso.loads(jso.dumps(res, default=str))
         else:
-            return jso.loads(jso.dumps(Teacher_And_ClassModel.json(data), default=str))
+            return jso.loads(
+                jso.dumps(Teacher_And_ClassModel.json(data), default=str)
+            )
 
     @classmethod
     def find_row(cls, class_id, user_id):  # vẫn cần giữ

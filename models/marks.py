@@ -7,17 +7,26 @@ class MarkModel(db.Model):
     mark_id = db.Column(db.String(20), primary_key=True)
     exam_date = db.Column(db.DateTime)
     mark = db.Column(db.Integer)
-    user_id = db.Column(db.String(80), db.ForeignKey("user.user_id"), nullable=False)
+    user_id = db.Column(
+        db.String(80),
+        db.ForeignKey("user.user_id"),
+        nullable=False
+    )
     subject_id = db.Column(
         db.String(20), db.ForeignKey("subject.subject_id"), nullable=False
     )
-    class_id = db.Column(db.String(20), db.ForeignKey("class.class_id"), nullable=False)
+    class_id = db.Column(
+        db.String(20),
+        db.ForeignKey("class.class_id"),
+        nullable=False
+    )
 
     mark_2 = db.relationship("UserModel")
     mark_3 = db.relationship("SubjectModel")
     mark_4 = db.relationship("ClasssModel")
 
-    def __init__(self, mark, user_id, subject_id, class_id, exam_date, mark_id):
+    def __init__(self, mark, user_id, subject_id,
+                 class_id, exam_date, mark_id):
         self.mark_id = mark_id
         self.exam_date = exam_date
         self.mark = mark

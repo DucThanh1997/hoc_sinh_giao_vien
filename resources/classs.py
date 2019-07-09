@@ -44,17 +44,26 @@ class Classs(Resource):
 
     @jwt_required
     def get(self, class_id=None, page=None, per_page=None):
-        if request.args.get('page') and request.args.get('per_page') and request.args.get('username'):
+        if (request.args.get('page') and
+                request.args.get('per_page') and
+                request.args.get('username')):
             page = int(request.args.get('page'))
             class_id = request.args.get('username')
             per_page = int(request.args.get('per_page'))
-            list_class = ClasssModel.find_list_by_name(class_id, page, per_page)
+            list_class = ClasssModel.find_list_by_name(
+                class_id, page, per_page
+            )
             if list_class is None:
                 return {"messages": err_404.format("list_class")}, 404
-            return {"list": ClasssModel.to_json(list_class), "count ": len(list_class)}, 200
+            return {
+                "list": ClasssModel.to_json(list_class),
+                "count ": len(list_class)
+            }, 200
 
         if class_id is None:
-            list = ClasssModel.to_json(ClasssModel.query.paginate(page, per_page, False).items)
+            list = ClasssModel.to_json(
+                ClasssModel.query.paginate(page, per_page, False).items
+            )
             return {"list": list,
                     "count": len(ClasssModel.query.all())}, 200
 

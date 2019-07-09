@@ -1,0 +1,2 @@
+mysql:
+  mysql_uri: mysql://cuong:1@127.0.0.1/hocsinh_2

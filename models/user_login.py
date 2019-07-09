@@ -8,7 +8,11 @@ class User_LoginModel(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(30), unique=True)
     password = db.Column(db.String(200))
-    user_id = db.Column(db.String(80), db.ForeignKey("user.user_id"), nullable=False)
+    user_id = db.Column(
+        db.String(80),
+        db.ForeignKey("user.user_id"),
+        nullable=False
+    )
 
     user_login_1 = db.relationship("UserModel")
 
@@ -35,7 +39,9 @@ class User_LoginModel(db.Model):
                 res.append(User_LoginModel.json(i))
             return jso.loads(jso.dumps(res, default=str))
         else:
-            return jso.loads(jso.dumps(User_LoginModel.json(data), default=str))
+            return jso.loads(
+                jso.dumps(User_LoginModel.json(data), default=str)
+            )
 
     @classmethod
     def find_by_user_id(cls, user_id):

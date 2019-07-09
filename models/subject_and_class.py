@@ -35,11 +35,16 @@ class Subject_And_ClassModel(db.Model):
                 res.append(Subject_And_ClassModel.json(i))
             return jso.loads(jso.dumps(res, default=str))
         else:
-            return jso.loads(jso.dumps(Subject_And_ClassModel.json(data), default=str))
+            return jso.loads(
+                jso.dumps(Subject_And_ClassModel.json(data), default=str)
+            )
 
     @classmethod
     def find_row(cls, class_id, subject_id):  # vẫn cần giữ
-        return cls.query.filter_by(class_id=class_id, subject_id=subject_id).first()
+        return cls.query.filter_by(
+            class_id=class_id,
+            subject_id=subject_id
+        ).first()
 
     @classmethod
     def find_by_id(cls, id):
