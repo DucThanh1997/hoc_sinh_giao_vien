@@ -2,6 +2,7 @@ from db import db
 import json as jso
 import datetime
 
+
 class ExamModel(db.Model):
     __tablename__ = "exam"
     id = db.Column(db.Integer, primary_key=True)

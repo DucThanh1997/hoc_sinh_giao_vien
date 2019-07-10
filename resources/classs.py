@@ -30,7 +30,6 @@ class Classs(Resource):
         classs = ClasssModel(
             name=data["name"], school_id=data["school_id"], class_id=data["class_id"]
         )
-
         classs.save_to_db()
         try:
             classs.save_to_db()

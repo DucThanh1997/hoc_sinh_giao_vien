@@ -11,6 +11,7 @@ import datetime
 from flask import g
 from models.subject_and_class import Subject_And_ClassModel
 
+
 class Student_And_Class(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("class_id", type=str, required=False)
@@ -138,14 +139,20 @@ class XemLichThi(Resource):
             or g.user.user_id == user_id
         ):
             for row in list:
-                list_subject = Subject_And_ClassModel.find_by_class_id(class_id=row.class_id)
+                list_subject = Subject_And_ClassModel.find_by_class_id(
+                    class_id=row.class_id
+                )
                 for subject in list_subject:
                     exam = ExamModel.find_by_subject_id(subject_id=subject.subject_id)
                     if exam[0].exam_date > datetime.datetime.now():
                         list_exam.append(exam)
-                    elif exam[0].exam_date == datetime.datetime.now() and exam[0].exam_start_time > datetime.time(datetime.now()):
+                    elif exam[0].exam_date == datetime.datetime.now() and exam[
+                        0
+                    ].exam_start_time > datetime.time(datetime.now()):
                         list_exam.append(exam)
             print(list_exam)
             return {"lịch thi": ExamModel.to_json(list_exam)}
         return {"messages": "Không có quyền"}, 403
+
+
 # thêm condittion ở câu lệnh query bh mệt vl ra r

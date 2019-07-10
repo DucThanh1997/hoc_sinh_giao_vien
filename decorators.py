@@ -105,13 +105,13 @@ def validiate_mail(mail):
             "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$",
             mail,
         )
-        == None
+        is None
     ):
         return None
     return 1
 
 
 def validiate_phone_number(number):
-    if re.match("^[0-3]{2}[0-9]{8}$", number) == None:
+    if re.match("^[0-3]{2}[0-9]{8}$", number) is None:
         return None
     return 1

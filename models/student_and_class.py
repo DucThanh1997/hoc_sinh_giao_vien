@@ -2,7 +2,6 @@ from db import db
 import json as jso
 
 
-
 class Student_And_ClassModel(db.Model):
     __tablename__ = "class_and_student"
 
@@ -13,15 +12,12 @@ class Student_And_ClassModel(db.Model):
     class_2 = db.relationship("ClasssModel")
     user_1 = db.relationship("UserModel")
 
-    def __init__(self, class_id, user_id, ):
+    def __init__(self, class_id, user_id):
         self.class_id = class_id
         self.user_id = user_id
 
     def json(self):
-        return {
-            "class_id": self.class_id,
-            "user_id": self.user_id,
-        }
+        return {"class_id": self.class_id, "user_id": self.user_id}
 
     def to_json(data):
         if type(data) in (tuple, list):
