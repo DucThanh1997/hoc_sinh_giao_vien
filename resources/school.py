@@ -1,8 +1,9 @@
 from flask_restful import reqparse, Resource
+from flask import request
+
 from decorators import gv_authenticate, token_check
 from models.school import SchoolModel
 from messenger import *
-from flask import request
 
 
 class School(Resource):

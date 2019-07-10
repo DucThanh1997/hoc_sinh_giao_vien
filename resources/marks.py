@@ -1,17 +1,19 @@
+from datetime import datetime, timedelta
+import datetime
+
 from flask_restful import reqparse, Resource
+from flask_jwt_extended import jwt_required
+from sqlalchemy import func
+from flask import session
+
 from decorators import *
 from models.marks import MarkModel
-from flask_jwt_extended import jwt_required
 from messenger import *
 from models.user import UserModel
 from models.exam import ExamModel
 from models.subject import SubjectModel
 from models.student_and_class import Student_And_ClassModel
-from sqlalchemy import func
 from db import db
-from flask import session
-from datetime import datetime, timedelta
-import datetime
 
 
 class Mark(Resource):

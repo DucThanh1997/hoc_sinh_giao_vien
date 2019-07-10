@@ -1,9 +1,11 @@
+import datetime
+from datetime import datetime
+
 from flask_restful import reqparse, Resource
+
 from decorators import *
 from config import Config
 from messenger import *
-from datetime import datetime
-import datetime
 from models.history import HistoryModel
 
 

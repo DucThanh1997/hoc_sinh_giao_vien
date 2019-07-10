@@ -1,5 +1,6 @@
-from models.exam import ExamModel
 from pymemcache.client import base
+
+from models.exam import ExamModel
 
 
 def get(ma=None):

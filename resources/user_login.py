@@ -1,6 +1,9 @@
+import os
+from datetime import datetime
+import datetime
+
 from flask_restful import reqparse, Resource
 from flask import request, jsonify, send_file
-import os
 from werkzeug.utils import secure_filename
 import werkzeug
 from flask_jwt_extended import (
@@ -11,11 +14,10 @@ from flask_jwt_extended import (
     get_jwt_identity,
     get_raw_jwt,
 )
+import redis
+
 from models.user_login import User_LoginModel
 from decorators import *
-import redis
-from datetime import datetime
-import datetime
 from messenger import *
 from config import Config
 

@@ -1,9 +1,10 @@
 from flask_restful import reqparse, Resource
+from flask import request
+from flask_jwt_extended import jwt_required
+
 from decorators import gv_authenticate, token_check
 from models.subject import SubjectModel
-from flask_jwt_extended import jwt_required
 from messenger import *
-from flask import request
 
 
 class Subject(Resource):

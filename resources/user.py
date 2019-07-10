@@ -1,12 +1,14 @@
+import os
+from datetime import datetime
+import datetime
+
 from flask_restful import reqparse, Resource
 from flask import request, jsonify, send_file
-import os
 from werkzeug.utils import secure_filename
+
 from decorators import *
 from config import Config
 from messenger import *
-from datetime import datetime
-import datetime
 from models.user import UserModel
 
 

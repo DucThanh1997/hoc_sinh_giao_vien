@@ -1,6 +1,8 @@
-from db import db
-from passlib.hash import pbkdf2_sha256 as sha256
 import json as jso
+
+from passlib.hash import pbkdf2_sha256 as sha256
+
+from db import db
 
 
 class User_LoginModel(db.Model):

@@ -1,10 +1,11 @@
+from flask import request
 from flask_restful import reqparse, Resource
+from flask_jwt_extended import jwt_required
+
 from decorators import gv_authenticate
 from models.classs import ClasssModel
 from models.school import SchoolModel
-from flask_jwt_extended import jwt_required
 from messenger import *
-from flask import request
 
 
 class Classs(Resource):

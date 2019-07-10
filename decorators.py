@@ -1,11 +1,12 @@
-from models.user import UserModel
+from datetime import datetime, timedelta
+import datetimeimport re
 from functools import wraps
+
 from flask import request, g
 from jwt import decode
-import re
+
+from models.user import UserModel
 from messenger import *
-from datetime import datetime, timedelta
-import datetime
 from config import Config
 
 

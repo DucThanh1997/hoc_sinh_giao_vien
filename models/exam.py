@@ -1,6 +1,7 @@
-from db import db
 import json as jso
 import datetime
+
+from db import db
 
 
 class ExamModel(db.Model):

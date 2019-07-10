@@ -1,11 +1,13 @@
+from datetime import datetime
+import datetime
+
 from flask_restful import reqparse, Resource
+from flask_jwt_extended import jwt_required
+
 from decorators import gv_authenticate
 from models.exam import ExamModel
 from models.subject import SubjectModel
-from flask_jwt_extended import jwt_required
 from messenger import *
-from datetime import datetime
-import datetime
 
 
 class Exam(Resource):

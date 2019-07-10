@@ -1,5 +1,4 @@
 from flask import Flask
-from db import db
 from flask_jwt_extended import JWTManager
 import pymysql
 from flask_restful import Api
@@ -17,6 +16,8 @@ from resources.school import *
 from resources.marks import *
 from blacklist import BLACKLIST as BLACK_LIST
 from config import Config
+from db import db
+
 
 pymysql.install_as_MySQLdb()
 

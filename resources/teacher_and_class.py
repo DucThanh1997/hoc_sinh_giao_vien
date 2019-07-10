@@ -1,5 +1,6 @@
 from flask_restful import reqparse, Resource
 from sqlalchemy import exc
+
 from models.teacher_and_class import Teacher_And_ClassModel
 from models.user import UserModel
 from models.history import HistoryModel

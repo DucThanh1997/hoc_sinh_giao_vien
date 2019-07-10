@@ -1,5 +1,6 @@
-from db import db
 import json as jso
+
+from db import db
 
 
 class Student_And_ClassModel(db.Model):
