@@ -7,7 +7,7 @@ print(basedir)
 
 class Config(object):
     JWT_SECRET_KEY = "Đố em biết anh đang nghĩ gì"
-    SQLALCHEMY_DATABASE_URI = "mysql://cuong:1@127.0.0.1/hocsinh_2"
+    SQLALCHEMY_DATABASE_URI = "mysql://root:thanh1997@127.0.0.1/hoc_sinh3"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ["access", "refresh"]
@@ -23,4 +23,4 @@ class Config(object):
     redis_port = 6379
     redis_password = ""
 
-    REDIS_CONNECTOR = redis.Redis(host='localhost', port=6379, db=0)
+    REDIS_CONNECTOR = redis.Redis(host="localhost", port=6379, db=0)

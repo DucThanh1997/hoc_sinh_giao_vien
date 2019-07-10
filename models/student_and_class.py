@@ -2,27 +2,25 @@ from db import db
 import json as jso
 
 
+
 class Student_And_ClassModel(db.Model):
     __tablename__ = "class_and_student"
 
     id = db.Column(db.Integer, primary_key=True)
     class_id = db.Column(db.String(20), db.ForeignKey("class.class_id"), nullable=False)
     user_id = db.Column(db.String(80), db.ForeignKey("user.user_id"), nullable=False)
-    exam_date = db.Column(db.DateTime)
 
     class_2 = db.relationship("ClasssModel")
     user_1 = db.relationship("UserModel")
 
-    def __init__(self, class_id, user_id, exam_date):
+    def __init__(self, class_id, user_id, ):
         self.class_id = class_id
         self.user_id = user_id
-        self.exam_date = exam_date
 
     def json(self):
         return {
             "class_id": self.class_id,
             "user_id": self.user_id,
-            "exam_date": self.exam_date,
         }
 
     def to_json(data):
@@ -43,10 +41,6 @@ class Student_And_ClassModel(db.Model):
         return cls.query.filter_by(id=id)
 
     @classmethod
-    def find_by_class_id(cls, class_id):
-        return cls.query.filter_by(class_id=class_id).all()
-
-    @classmethod
     def find_by_user_id(cls, user_id):
         return cls.query.filter_by(user_id=user_id).all()
 
@@ -61,6 +55,11 @@ class Student_And_ClassModel(db.Model):
             .paginate(page, per_page, False)
             .items
         )
+        return row_list
+
+    @classmethod
+    def find_list_class_by_user_id(cls, user_id):
+        row_list = cls.query.filter_by(user_id=user_id).all()
         return row_list
 
     def save_to_db(self):

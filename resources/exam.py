@@ -31,13 +31,22 @@ class Exam(Resource):
     @gv_authenticate
     def post(self):
         data = Exam.parser.parse_args()
-        if ExamModel.find_by_exam_date_and_subject_id(data["exam_date"], data["subject_id"]):
+        if ExamModel.find_by_exam_date_and_subject_id(
+            data["exam_date"], data["subject_id"]
+        ):
             return {"messages": err_duplicate.format("exam")}, 400
         try:
             exam_date = datetime.datetime.strptime(data["exam_date"], "%Y-%m-%d")
-            exam_start_time = datetime.datetime.strptime(data["exam_start_time"], "%H-%M")
+            exam_start_time = datetime.datetime.strptime(
+                data["exam_start_time"], "%H-%M"
+            )
         except:
-            return {"messages": "start date or end date was not valid a date form. Please try again"}, 400
+            return (
+                {
+                    "messages": "start date or end date was not valid a date form. Please try again"
+                },
+                400,
+            )
 
         # check date
         if exam_date > datetime.datetime.now():
@@ -52,7 +61,7 @@ class Exam(Resource):
             exam_date=exam_date,
             exam_start_time=exam_start_time,
             exam_time=data["exam_time"],
-            subject_id=data["subject_id"]
+            subject_id=data["subject_id"],
         )
         exam.save_to_db()
         try:
@@ -65,9 +74,10 @@ class Exam(Resource):
     def get(self, exam_date=None, page=None, per_page=None, subject_id=None):
         # in ra tất cả
         if exam_date is None:
-            list = ExamModel.to_json(ExamModel.query.paginate(page, per_page, False).items)
-            return {"list": list,
-                    "count": len(ExamModel.query.all())}, 200
+            list = ExamModel.to_json(
+                ExamModel.query.paginate(page, per_page, False).items
+            )
+            return {"list": list, "count": len(ExamModel.query.all())}, 200
 
         # in ra 1 cái chỉ định
         exam = ExamModel.find_by_exam_date_and_subject_id(exam_date, subject_id)

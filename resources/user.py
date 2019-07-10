@@ -1,22 +1,13 @@
 from flask_restful import reqparse, Resource
 from flask import request, jsonify, send_file
 import os
-from messenger import *
 from werkzeug.utils import secure_filename
-import werkzeug
-from flask_jwt_extended import (
-    create_access_token,
-    create_refresh_token,
-    jwt_refresh_token_required,
-    jwt_required,
-    get_jwt_identity,
-    get_raw_jwt,
-)
-from models.user import UserModel
-from datetime import datetime
-import datetime
 from decorators import *
 from config import Config
+from messenger import *
+from datetime import datetime
+import datetime
+from models.user import UserModel
 
 
 class User(Resource):
@@ -58,18 +49,23 @@ class User(Resource):
 
     @gv_authenticate
     def get(self, user_id=None, page=None, per_page=None):
-        if request.args.get('page') and request.args.get('per_page') and request.args.get('username'):
-            page = int(request.args.get('page'))
-            name = request.args.get('username')
-            per_page = int(request.args.get('per_page'))
+        if (
+            request.args.get("page")
+            and request.args.get("per_page")
+            and request.args.get("username")
+        ):
+            page = int(request.args.get("page"))
+            name = request.args.get("username")
+            per_page = int(request.args.get("per_page"))
             list_user = UserModel.find_list_by_username(name, page, per_page)
             if list_user is None:
                 return {"messages": err_404.format("list_user")}, 404
             return {"list": UserModel.to_json(list_user), "count ": len(list_user)}, 200
         if user_id is None:
-            list = UserModel.to_json(UserModel.query.paginate(page, per_page, False).items)
-            return {"list": list,
-                    "count": len(UserModel.query.all())}, 200
+            list = UserModel.to_json(
+                UserModel.query.paginate(page, per_page, False).items
+            )
+            return {"list": list, "count": len(UserModel.query.all())}, 200
 
         user = UserModel.find_by_user_id(user_id)
         if user is None:
@@ -149,11 +145,9 @@ class UploadAva(Resource):
     def get(self, ma):
         # kiểm tra user đăng nhập hiện tại có file name giống mình muốn lấy không. Làm sau login
         try:
-            index_path = os.path.join(Config.UPLOAD_FOLDER, ma) + '.jpg'
+            index_path = os.path.join(Config.UPLOAD_FOLDER, ma) + ".jpg"
             print(index_path)
         except:
             return jsonify({"message": err_500}), 500
         print("okke")
         return send_file(index_path)
-
-

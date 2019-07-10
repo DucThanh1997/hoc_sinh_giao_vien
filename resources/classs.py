@@ -9,9 +9,7 @@ from flask import request
 
 class Classs(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument(
-        "name", type=str, required=True, help=help.format("name")
-    )
+    parser.add_argument("name", type=str, required=True, help=help.format("name"))
     parser.add_argument(
         "school_id", type=str, required=True, help=help.format("school_id")
     )
@@ -30,9 +28,7 @@ class Classs(Resource):
             return {"messages": err_404.format("school")}, 404
 
         classs = ClasssModel(
-            name=data["name"],
-            school_id=data["school_id"],
-            class_id=data["class_id"],
+            name=data["name"], school_id=data["school_id"], class_id=data["class_id"]
         )
 
         classs.save_to_db()
@@ -44,19 +40,27 @@ class Classs(Resource):
 
     @jwt_required
     def get(self, class_id=None, page=None, per_page=None):
-        if request.args.get('page') and request.args.get('per_page') and request.args.get('username'):
-            page = int(request.args.get('page'))
-            class_id = request.args.get('username')
-            per_page = int(request.args.get('per_page'))
+        if (
+            request.args.get("page")
+            and request.args.get("per_page")
+            and request.args.get("username")
+        ):
+            page = int(request.args.get("page"))
+            class_id = request.args.get("username")
+            per_page = int(request.args.get("per_page"))
             list_class = ClasssModel.find_list_by_name(class_id, page, per_page)
             if list_class is None:
                 return {"messages": err_404.format("list_class")}, 404
-            return {"list": ClasssModel.to_json(list_class), "count ": len(list_class)}, 200
+            return (
+                {"list": ClasssModel.to_json(list_class), "count ": len(list_class)},
+                200,
+            )
 
         if class_id is None:
-            list = ClasssModel.to_json(ClasssModel.query.paginate(page, per_page, False).items)
-            return {"list": list,
-                    "count": len(ClasssModel.query.all())}, 200
+            list = ClasssModel.to_json(
+                ClasssModel.query.paginate(page, per_page, False).items
+            )
+            return {"list": list, "count": len(ClasssModel.query.all())}, 200
 
         classs = ClasssModel.find_by_class_id(class_id)
         if classs is None:

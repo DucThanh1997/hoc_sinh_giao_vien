@@ -1,4 +1,3 @@
-
 # Lỗi
 err_500 = "Unexpected Error "
 err_404 = "your {0} you inserted was not found"

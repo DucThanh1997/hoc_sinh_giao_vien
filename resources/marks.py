@@ -16,12 +16,8 @@ import datetime
 
 class Mark(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument(
-        "mark", type=int, required=True, help=help.format("mark")
-    )
-    parser.add_argument(
-        "user_id", type=str, required=True, help=help.format("user_id")
-    )
+    parser.add_argument("mark", type=int, required=True, help=help.format("mark"))
+    parser.add_argument("user_id", type=str, required=True, help=help.format("user_id"))
 
     parser.add_argument(
         "subject_id", type=str, required=True, help=help.format("subject_id")
@@ -56,7 +52,7 @@ class Mark(Resource):
             mark=data["mark"],
             user_id=data["user_id"],
             exam_date=data["exam_date"],
-            subject_id=data["subject_id"]
+            subject_id=data["subject_id"],
         )
         try:
             mark.save_to_db()
@@ -67,9 +63,10 @@ class Mark(Resource):
     @token_check
     def get(self, mark_id=None, page=None, per_page=None):
         if mark_id is None:
-            list = MarkModel.to_json(MarkModel.query.paginate(page, per_page, False).items)
-            return {"list": list,
-                    "count": len(MarkModel.query.all())}, 200
+            list = MarkModel.to_json(
+                MarkModel.query.paginate(page, per_page, False).items
+            )
+            return {"list": list, "count": len(MarkModel.query.all())}, 200
 
         mark = MarkModel.find_by_mark_id(mark_id)
         if mark is None:
@@ -86,8 +83,17 @@ class Mark(Resource):
         # check khóa ngoại
         if UserModel.find_by_user_id(user_id=data["user_id"]) is None:
             return {"messages": err_404.format(data["user_id"])}
-        if ExamModel.find_by_exam_date_and_subject_id(exam_date=data["exam_date"], subject_id=data["subject_id"]) is None:
-            return {"messages": "Không tìm thấy có môn bạn tìm vào ngày {0}".format(data["exam_date"])}
+        if (
+            ExamModel.find_by_exam_date_and_subject_id(
+                exam_date=data["exam_date"], subject_id=data["subject_id"]
+            )
+            is None
+        ):
+            return {
+                "messages": "Không tìm thấy có môn bạn tìm vào ngày {0}".format(
+                    data["exam_date"]
+                )
+            }
         if SubjectModel.find_by_subject_id(subject_id=data["subject_id"]) is None:
             return {"messages": err_404.format(data["subject_id"])}
 
@@ -118,22 +124,32 @@ class Mark(Resource):
 
 
 class FindMaxScoreBySubject(Resource):
-    # @gv_authenticate
+    @gv_authenticate
     def get(self, subject_id):
         print("123")
-        subqry = db.session.query(func.max(MarkModel.mark)).filter(MarkModel.subject_id == subject_id).all()
+        subqry = (
+            db.session.query(func.max(MarkModel.mark))
+            .filter(MarkModel.subject_id == subject_id)
+            .all()
+        )
         print("1234")
-        list_user = MarkModel.find_by_mark_and_subject_id(mark=subqry[0][0], subject_id=subject_id).all()
-        return{"list_user": MarkModel.to_json(list_user)}
+        list_user = MarkModel.find_by_mark_and_subject_id(
+            mark=subqry[0][0], subject_id=subject_id
+        ).all()
+        return {"list_user": MarkModel.to_json(list_user)}
 
 
 class FindMaxScoreByClass(Resource):
-    # @gv_authenticate
+    @gv_authenticate
     def get(self, class_id):
         print("123")
-        subqry = db.session.query(func.max(MarkModel.mark)).filter(MarkModel.class_id == class_id).all()
+        subqry = (
+            db.session.query(func.max(MarkModel.mark))
+            .filter(MarkModel.class_id == class_id)
+            .all()
+        )
         print("1234")
-        list_user = MarkModel.find_by_mark_and_class_id(mark=subqry[0][0], class_id=class_id).all()
-        return{"list_user": MarkModel.to_json(list_user)}
-
-
+        list_user = MarkModel.find_by_mark_and_class_id(
+            mark=subqry[0][0], class_id=class_id
+        ).all()
+        return {"list_user": MarkModel.to_json(list_user)}

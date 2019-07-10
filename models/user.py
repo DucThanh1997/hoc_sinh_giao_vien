@@ -1,5 +1,6 @@
 from db import db
 from passlib.hash import pbkdf2_sha256 as sha256
+from datetime import datetime
 import json as jso
 
 
@@ -21,6 +22,7 @@ class UserModel(db.Model):
     user_1 = db.relationship("Student_And_ClassModel")
     mark_2 = db.relationship("MarkModel")
     user_login_1 = db.relationship("User_LoginModel")
+    history_2 = db.relationship("HistoryModel")
 
     # 1: sinh viên
     # 2: giáo viên
@@ -78,6 +80,11 @@ class UserModel(db.Model):
             return jso.loads(jso.dumps(res, default=str))
         else:
             return jso.loads(jso.dumps(UserModel.json(data), default=str))
+
+    @classmethod
+    def find_by_user_id(cls, user_id):
+        user = cls.query.filter_by(user_id=user_id).first()
+        return user
 
     @classmethod
     def find_by_user_id(cls, user_id):

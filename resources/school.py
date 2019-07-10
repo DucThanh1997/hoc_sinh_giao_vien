@@ -4,11 +4,14 @@ from models.school import SchoolModel
 from messenger import *
 from flask import request
 
+
 class School(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("name", type=str, required=True, help=help.format("name"))
     parser.add_argument("address", type=str, required=True, help=help.format("address"))
-    parser.add_argument("school_id", type=str, required=True, help=help.format("school_id"))
+    parser.add_argument(
+        "school_id", type=str, required=True, help=help.format("school_id")
+    )
 
     @gv_authenticate
     def post(self):
@@ -24,19 +27,27 @@ class School(Resource):
 
     @gv_authenticate
     def get(self, school_id=None, page=None, per_page=None):
-        if request.args.get('page') and request.args.get('per_page') and request.args.get('class_id'):
-            page = int(request.args.get('page'))
-            name = request.args.get('username')
-            per_page = int(request.args.get('per_page'))
+        if (
+            request.args.get("page")
+            and request.args.get("per_page")
+            and request.args.get("class_id")
+        ):
+            page = int(request.args.get("page"))
+            name = request.args.get("username")
+            per_page = int(request.args.get("per_page"))
             list_school = SchoolModel.find_list_by_name(name, page, per_page)
             if list_school is None:
                 return {"messages": err_404.format("list_school")}, 404
-            return {"list": SchoolModel.to_json(list_school), "count ": len(list_school)}, 200
+            return (
+                {"list": SchoolModel.to_json(list_school), "count ": len(list_school)},
+                200,
+            )
 
         if school_id is None:
-            list = SchoolModel.to_json(SchoolModel.query.paginate(page, per_page, False).items)
-            return {"list": list,
-                    "count": len(SchoolModel.query.all())}, 200
+            list = SchoolModel.to_json(
+                SchoolModel.query.paginate(page, per_page, False).items
+            )
+            return {"list": list, "count": len(SchoolModel.query.all())}, 200
 
         school = SchoolModel.find_by_school_id(school_id)
         if school:

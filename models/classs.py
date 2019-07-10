@@ -16,6 +16,7 @@ class ClasssModel(db.Model):
     class_3 = db.relationship("Teacher_And_ClassModel")
     class_4 = db.relationship("Subject_And_ClassModel")
     mark_4 = db.relationship("MarkModel")
+    history_1 = db.relationship("HistoryModel")
 
     def __init__(self, name, school_id, class_id):
         self.class_id = class_id

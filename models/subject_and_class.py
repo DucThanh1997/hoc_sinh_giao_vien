@@ -6,8 +6,7 @@ class Subject_And_ClassModel(db.Model):
     __tablename__ = "class_and_subject"
 
     id = db.Column(db.Integer, primary_key=True)
-    class_id = db.Column(db.String(20), db.ForeignKey(
-        "class.class_id"), nullable=False)
+    class_id = db.Column(db.String(20), db.ForeignKey("class.class_id"), nullable=False)
     subject_id = db.Column(
         db.String(80), db.ForeignKey("subject.subject_id"), nullable=False
     )
@@ -52,6 +51,10 @@ class Subject_And_ClassModel(db.Model):
     @classmethod
     def find_by_user_id(cls, subject_id):
         return cls.query.filter_by(subject_id=subject_id).all()
+
+    @classmethod
+    def find_exam_date_by_class(cls, class_id):
+        return cls.query.filter_by(class_id=class_id).with_entities(cls.exam_date).all()
 
     @classmethod
     def find_all(cls):

@@ -14,7 +14,7 @@ def get(ma=None):
     return exam.json()
 
 
-client1 = base.Client(('localhost', 11211))
+client1 = base.Client(("localhost", 11211))
 result = get(1)
 print(result)
 
@@ -25,5 +25,3 @@ print(result)
 #     client1.set('some_key', result)
 
 print(" đây là: ", result)
-
-

@@ -10,6 +10,7 @@ class SchoolModel(db.Model):
     address = db.Column(db.String(100))
 
     class_1 = db.relationship("ClasssModel")
+    history_3 = db.relationship("HistoryModel")
 
     def __init__(self, name, address, school_id):
         self.name = name
