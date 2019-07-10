@@ -162,7 +162,6 @@ class UploadAva(Resource):
 
                 user.image_name = name_off
                 user.avatar = path
-                user.save_to_db()
                 try:
                     user.save_to_db()
                 except Exception:

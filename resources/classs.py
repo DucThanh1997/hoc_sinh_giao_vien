@@ -99,6 +99,7 @@ class Classs(Resource):
             classs.save_to_db()
         except Exception:
             return {"messages": err_500}, 500
+
         return {"messages": noti_201}, 201
 
     @gv_authenticate

@@ -79,10 +79,10 @@ class Subject_And_Class(Resource):
 
         if class_id is None:
             list = []
-            # Performance
-            for row in Subject_And_ClassModel.query.paginate(
+            subject_and_class = Subject_And_ClassModel.query.paginate(
                 page, per_page, False
-            ).items:
+            ).items
+            for row in subject_and_class:
                 list.append(row.json())
 
             return (
@@ -95,8 +95,10 @@ class Subject_And_Class(Resource):
 
         if Subject_And_ClassModel.find_by_class_id(class_id):
             list2 = []
-            # Performance
-            for row in Subject_And_ClassModel.find_by_class_id(class_id):
+            subject_and_class = Subject_And_ClassModel.find_by_class_id(
+                class_id
+            )
+            for row in subject_and_class:
                 list2.append(row.json())
             return {"danh sách lớp": list2}, 200
 
