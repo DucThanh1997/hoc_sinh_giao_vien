@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-import datetimeimport re
+import datetime
+import re
 from functools import wraps
 
 from flask import request, g
@@ -24,8 +25,12 @@ def token_check(fn):
         yesterday_list = "blacklist_token_in_" + yesterday.strftime("%d_%m_%Y")
         resp = decode(token, None, verify=False, algorithms=["HS256"])
         if (
-            Config.REDIS_CONNECTOR.sismember(today_list, resp["jti"]) is True or
-            Config.REDIS_CONNECTOR.sismember(yesterday_list, resp["jti"]) is True
+            Config.REDIS_CONNECTOR.sismember(
+                today_list, resp["jti"]
+            ) is True or
+            Config.REDIS_CONNECTOR.sismember(
+                yesterday_list, resp["jti"]
+            ) is True
         ):
             return {"error": "mời bạn đăng nhập lại"}, 401
 
@@ -51,8 +56,12 @@ def gv_authenticate(fn):
         yesterday_list = "blacklist_token_in_" + yesterday.strftime("%d_%m_%Y")
         resp = decode(token, None, verify=False, algorithms=["HS256"])
         if (
-            Config.REDIS_CONNECTOR.sismember(today_list, resp["jti"]) is True or
-            Config.REDIS_CONNECTOR.sismember(yesterday_list, resp["jti"]) is True
+            Config.REDIS_CONNECTOR.sismember(
+                today_list, resp["jti"]
+            ) is True or
+            Config.REDIS_CONNECTOR.sismember(
+                yesterday_list, resp["jti"]
+            ) is True
         ):
             return {"error": "mời bạn đăng nhập lại"}, 401
 
@@ -83,8 +92,12 @@ def hs_authenticate(fn):
         yesterday_list = "blacklist_token_in_" + yesterday.strftime("%d_%m_%Y")
         resp = decode(token, None, verify=False, algorithms=["HS256"])
         if (
-            Config.REDIS_CONNECTOR.sismember(today_list, resp["jti"]) is True or
-            Config.REDIS_CONNECTOR.sismember(yesterday_list, resp["jti"]) is True
+            Config.REDIS_CONNECTOR.sismember(
+                today_list, resp["jti"]
+            ) is True or
+            Config.REDIS_CONNECTOR.sismember(
+                yesterday_list, resp["jti"]
+            ) is True
         ):
             return {"error": "mời bạn đăng nhập lại"}, 401
 
