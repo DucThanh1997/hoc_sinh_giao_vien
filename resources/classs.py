@@ -1,5 +1,5 @@
 from flask_restful import reqparse, Resource
-from decorators import gv_authenticate, token_check
+from decorators import gv_authenticate
 from models.classs import ClasssModel
 from models.school import SchoolModel
 from flask_jwt_extended import jwt_required
@@ -10,7 +10,10 @@ from flask import request
 class Classs(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
-        "name", type=str, required=True, help=help.format("name")
+        "name",
+        type=str,
+        required=True,
+        help=help.format("name")
     )
     parser.add_argument(
         "school_id", type=str, required=True, help=help.format("school_id")
@@ -32,13 +35,12 @@ class Classs(Resource):
         classs = ClasssModel(
             name=data["name"],
             school_id=data["school_id"],
-            class_id=data["class_id"],
+            class_id=data["class_id"]
         )
-
         classs.save_to_db()
         try:
             classs.save_to_db()
-        except:
+        except Exception:
             return {"messages": err_500}, 500
         return {"messages": noti_201}, 201
 
@@ -53,19 +55,23 @@ class Classs(Resource):
             list_class = ClasssModel.find_list_by_name(
                 class_id, page, per_page
             )
+
             if list_class is None:
                 return {"messages": err_404.format("list_class")}, 404
-            return {
-                "list": ClasssModel.to_json(list_class),
-                "count ": len(list_class)
-            }, 200
+
+            return (
+                {
+                    "list": ClasssModel.to_json(list_class),
+                    "count ": len(list_class)
+                },
+                200
+            )
 
         if class_id is None:
             list = ClasssModel.to_json(
                 ClasssModel.query.paginate(page, per_page, False).items
             )
-            return {"list": list,
-                    "count": len(ClasssModel.query.all())}, 200
+            return {"list": list, "count": len(ClasssModel.query.all())}, 200
 
         classs = ClasssModel.find_by_class_id(class_id)
         if classs is None:
@@ -78,15 +84,19 @@ class Classs(Resource):
         classs = ClasssModel.find_by_class_id(class_id)
         if classs is None:
             return {"messages": err_404.format("class")}, 404
+
         if data["name"]:
             classs.name = data["name"]
+
         if data["school_id"]:
             classs.school_id = data["school_id"]
+
         if SchoolModel.find_by_school_id(school_id=data["school_id"]) is None:
             return {"messages": err_404.format("school")}, 404
+
         try:
             classs.save_to_db()
-        except:
+        except Exception:
             return {"messages": err_500}, 500
         return {"messages": noti_201}, 201
 
@@ -95,8 +105,10 @@ class Classs(Resource):
         classs = ClasssModel.find_by_class_id(class_id)
         if classs is None:
             return {"messages": err_404.format("class")}, 404
+
         try:
             classs.delete_from_db()
-        except:
+        except Exception:
             return {"messages": err_500}, 500
+
         return {"messages": noti_201}, 201

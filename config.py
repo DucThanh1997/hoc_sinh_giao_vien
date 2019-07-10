@@ -5,7 +5,7 @@ import yaml
 basedir = os.path.abspath(os.path.dirname(__file__))
 print(basedir)
 
-config = yaml.load(open('config.yaml'))
+config = yaml.load(open('config.yaml'), Loader=yaml.FullLoader)
 
 
 class Config(object):

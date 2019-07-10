@@ -8,6 +8,7 @@ from resources.user import *
 from resources.user_login import *
 from resources.classs import *
 from resources.exam import *
+from resources.history import *
 from resources.student_and_class import *
 from resources.teacher_and_class import *
 from resources.subject_and_class import *
@@ -38,8 +39,7 @@ def check_if_token_in_blacklist(decrypted_token):
 
 
 api.add_resource(
-    Classs,
-    "/class",
+    Classs, "/class",
     "/class/<string:class_id>",
     "/class/<int:page>/<int:per_page>"
 )
@@ -68,10 +68,13 @@ api.add_resource(
 api.add_resource(Mark, "/mark", "/mark/<int:ma_diem>")
 
 api.add_resource(
-    User,
-    "/user",
-    "/user/<string:user_id>",
-    "/user/<int:page>/<int:per_page>"
+    User, "/user", "/user/<string:user_id>", "/user/<int:page>/<int:per_page>"
+)
+api.add_resource(
+    History,
+    "/history",
+    "/history/<string:user_id>",
+    "/history/<int:page>/<int:per_page>",
 )
 api.add_resource(
     UserReg,
@@ -82,37 +85,36 @@ api.add_resource(UserLogin, "/login")
 api.add_resource(UserLogout, "/logout")
 api.add_resource(TokenRefresh, "/refresh")
 api.add_resource(
-    FindMaxScoreBySubject,
-    "/maxscore_subject/<string:subject_id>"
+    FindMaxScoreBySubject, "/maxscore_subject/<string:subject_id>"
 )
 api.add_resource(FindMaxScoreByClass, "/maxscore_class/<string:class_id>")
-api.add_resource(XemLichThi, "/lichthi/<string:ma>")
+api.add_resource(XemLichThi, "/lichthi/<string:user_id>")
 
 api.add_resource(
     Student_And_Class,
     "/danhsach_lop",
-    "/danhsach_lop/<int:class_id>",
-    "/danhsach_lop/<int:class_id>",
-    "/danhsach_lop/<int:class_id>/<string:subject_id>",
-    "/danhsach_lop/<int:page>/<int:per_page>"
+    "/danhsach_lop/<string:class_id>",
+    "/danhsach_lop/<string:class_id>",
+    "/danhsach_lop/<string:class_id>/<string:user_id>",
+    "/danhsach_lop/<int:page>/<int:per_page>",
 )
 
 api.add_resource(
     Subject_And_Class,
     "/danhsach",
-    "/danhsach/<int:class_id>",
-    "/danhsach/<int:class_id>",
-    "/danhsach/<int:class_id>/<string:user_id>",
-    "/danhsach/<int:page>/<int:per_page>"
+    "/danhsach/<string:class_id>",
+    "/danhsach/<string:class_id>",
+    "/danhsach/<string:class_id>/<string:user_id>",
+    "/danhsach/<string:page>/<int:per_page>",
 )
 
 
 api.add_resource(
     Teacher_And_Class,
     "/teach",
-    "/teach/<int:id_lop>/<string:ma>",
-    "/teach/<int:id_lop>",
-    "/danhsach/<int:page>/<int:per_page>"
+    "/teach/<string:id_lop>/<string:ma>",
+    "/teach/<string:id_lop>",
+    "/danhsach/<int:page>/<int:per_page>",
 )
 
 

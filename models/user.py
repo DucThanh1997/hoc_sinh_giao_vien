@@ -21,6 +21,7 @@ class UserModel(db.Model):
     user_1 = db.relationship("Student_And_ClassModel")
     mark_2 = db.relationship("MarkModel")
     user_login_1 = db.relationship("User_LoginModel")
+    history_2 = db.relationship("HistoryModel")
 
     # 1: sinh viên
     # 2: giáo viên

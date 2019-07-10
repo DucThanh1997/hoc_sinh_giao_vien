@@ -1,5 +1,6 @@
 from db import db
 import json as jso
+import datetime
 
 
 class ExamModel(db.Model):
@@ -26,8 +27,8 @@ class ExamModel(db.Model):
     def json(self):
         return {
             "exam_room": self.exam_room,
-            "exam_date": self.exam_date,
-            "exam_start_time": self.exam_start_time,
+            "exam_date": self.exam_date.strftime("%d/%m/%Y"),
+            "exam_start_time": self.exam_start_time.strftime("%H:%M:%S"),
             "exam_time": self.exam_time,
             "subject_id": self.subject_id,
         }
@@ -36,7 +37,16 @@ class ExamModel(db.Model):
         if type(data) in (tuple, list):
             res = []
             for i in data:
-                res.append(ExamModel.json(i))
+                res.append(ExamModel.json(i[0]))
+            return jso.loads(jso.dumps(res, default=str))
+        else:
+            return jso.loads(jso.dumps(ExamModel.json(data), default=str))
+
+    def to_json_for_calender(data):
+        if type(data) in (tuple, list):
+            res = []
+            for i in data:
+                res.append(ExamModel.json(i[0]))
             return jso.loads(jso.dumps(res, default=str))
         else:
             return jso.loads(jso.dumps(ExamModel.json(data), default=str))
@@ -47,6 +57,10 @@ class ExamModel(db.Model):
             exam_id=exam_date,
             subject_id=subject_id
         ).all()
+
+    @classmethod
+    def find_by_subject_id(cls, subject_id):
+        return cls.query.filter_by(subject_id=subject_id).all()
 
     @classmethod
     def find_all(cls):

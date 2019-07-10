@@ -3,7 +3,7 @@ from pymemcache.client import base
 
 
 def get(ma=None):
-    if ma == None:
+    if ma is None:
         list = []
         for exam in ExamModel.query.paginate(1, 15, False).items:
             list.append(exam.json())
@@ -14,7 +14,7 @@ def get(ma=None):
     return exam.json()
 
 
-client1 = base.Client(('localhost', 11211))
+client1 = base.Client(("localhost", 11211))
 result = get(1)
 print(result)
 

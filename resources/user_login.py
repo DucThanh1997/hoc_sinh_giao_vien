@@ -23,10 +23,18 @@ from config import Config
 class UserReg(Resource):
 
     parser = reqparse.RequestParser()
-    # parser.add_argument("login_id", type=str, required=True, help=help.format("login_id"))
-    parser.add_argument("user_id", type=str, required=True, help=help.format("user_id"))
-    parser.add_argument("username", type=str, required=True, help=help.format("username"))
-    parser.add_argument("password", type=str, required=True, help=help.format("password"))
+    parser.add_argument(
+        "user_id",
+        type=str,
+        required=True,
+        help=help.format("user_id")
+    )
+    parser.add_argument(
+        "username", type=str, required=True, help=help.format("username")
+    )
+    parser.add_argument(
+        "password", type=str, required=True, help=help.format("password")
+    )
 
     def post(self):
         data = UserReg.parser.parse_args()
@@ -38,33 +46,55 @@ class UserReg(Resource):
             # login_id=data["login_id"],
             user_id=data["user_id"],
             username=data["username"],
-            password=User_LoginModel.generate_hash(data["password"])
+            password=User_LoginModel.generate_hash(data["password"]),
         )
         try:
             user_login.save_to_db()
-        except:
+        except Exception:
             return {"messages": err_500}, 500
+
         return {"messages": noti_201}, 201
 
     @gv_authenticate
     def get(self, user_id=None, page=None, per_page=None):
-        if request.args.get('page') and request.args.get('per_page') and request.args.get('username'):
-            page = int(request.args.get('page'))
-            username = request.args.get('username')
-            per_page = int(request.args.get('per_page'))
-            list_user = User_LoginModel.find_list_by_username(username, page, per_page)
+        if (
+            request.args.get("page") and
+            request.args.get("per_page") and
+            request.args.get("username")
+        ):
+            page = int(request.args.get("page"))
+            username = request.args.get("username")
+            per_page = int(request.args.get("per_page"))
+            list_user = User_LoginModel.find_list_by_username(
+                username, page, per_page
+            )
             if list_user is None:
                 return {"messages": err_404.format("list_user")}, 404
-            return {"list": User_LoginModel.to_json(list_user), "count ": len(list_user)}, 200
+
+            return (
+                {
+                    "list": User_LoginModel.to_json(list_user),
+                    "count ": len(list_user)
+                },
+                200,
+            )
 
         if user_id is None:
-            list = User_LoginModel.to_json(User_LoginModel.query.paginate(page, per_page, False).items)
-            return {"list": list,
-                    "count": len(User_LoginModel.query.all())}, 200
+            list = User_LoginModel.to_json(
+                User_LoginModel.query.paginate(page, per_page, False).items
+            )
+            return (
+                {
+                    "list": list,
+                    "count": len(User_LoginModel.query.all())
+                },
+                200
+            )
 
         user_login = User_LoginModel.find_by_user_id(user_id)
         if user_login is None:
             return {"messages": err_404}, 404
+
         return user_login.json(), 200
 
     @token_check
@@ -73,14 +103,19 @@ class UserReg(Resource):
         user_login = User_LoginModel.find_by_user_id(ma)
         if user_login is None:
             return {"messages": err_404.format("user_login")}, 404
+
         if g.user != ma:
             return {"messages": err_404.format("user")}, 404
+
         try:
             if data["password"]:
-                user_login.password = User_LoginModel.generate_hash(data["password"])
+                user_login.password = User_LoginModel.generate_hash(
+                    data["password"]
+                )
             user_login.save_to_db()
-        except:
+        except Exception:
             return {"messages": err_500}, 500
+
         return {"messages": "update successfully"}, 201
 
     @gv_authenticate
@@ -88,10 +123,12 @@ class UserReg(Resource):
         user_login = User_LoginModel.find_by_user_id(user_id)
         if user_login is None:
             return {"messages": err_404.format("user_login")}, 404
+
         try:
             user_login.delete()
-        except:
+        except Exception:
             return {"messages": err_500}, 500
+
         return {"messages": noti_201}, 200
 
 
@@ -108,12 +145,16 @@ class UserLogin(Resource):
 
         if UserModel.verify_hash(data["password"], current_user.password):
             access_token = create_access_token(
-                identity=User_LoginModel.find_by_username(data["username"]).user_id,
+                identity=User_LoginModel.find_by_username(
+                    data["username"]
+                ).user_id,
                 expires_delta=datetime.timedelta(hours=24),
                 fresh=True,
             )
             refresh_token = create_refresh_token(
-                identity=User_LoginModel.find_by_username(data["username"]).user_id,
+                identity=User_LoginModel.find_by_username(
+                    data["username"]
+                ).user_id
             )
             return (
                 {
@@ -142,21 +183,22 @@ class TokenRefresh(Resource):
 class UserLogout(Resource):
     @token_check
     def post(self):
-        language_list = "blacklist_token_in_" + datetime.datetime.now().strftime("%d_%m_%Y")
+        time_now = datetime.datetime.now().strftime("%d_%m_%Y")
+        language_list = "blacklist_token_in_" + time_now
         print(Config.REDIS_CONNECTOR.exists(language_list))
         if Config.REDIS_CONNECTOR.exists(language_list) == 0:
             try:
                 Config.REDIS_CONNECTOR.sadd(language_list, g.jti)
                 Config.REDIS_CONNECTOR.expire(language_list, 172800)
-            except:
+            except Exception:
                 return {"messages": err_500}, 500
+
             return {"message": noti_201}, 201
         else:
             try:
                 print("113")
                 Config.REDIS_CONNECTOR.sadd(language_list, g.jti)
-            except:
+            except Exception:
                 return {"messages": err_500}, 500
+
             return {"message": noti_201}, 201
-
-
