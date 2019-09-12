@@ -1,13 +1,17 @@
 import os
+
 import redis
+import yaml
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 print(basedir)
 
+config = yaml.load(open('config.yaml'), Loader=yaml.FullLoader)
+
 
 class Config(object):
-    JWT_SECRET_KEY = "Đố em biết anh đang nghĩ gì"
-    SQLALCHEMY_DATABASE_URI = "mysql://root:thanh1997@127.0.0.1/hoc_sinh3"
+    JWT_SECRET_KEY = config["jwt"]["secret_key"]
+    SQLALCHEMY_DATABASE_URI = config["mysql"]["mysql_uri"]
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ["access", "refresh"]
@@ -19,8 +23,12 @@ class Config(object):
         os.mkdir(Folder)
     UPLOAD_FOLDER = Folder
 
-    redis_host = "localhost"
-    redis_port = 6379
-    redis_password = ""
+    # redis_host = "localhost"
+    # redis_port = 6379
+    # redis_password = ""
 
-    REDIS_CONNECTOR = redis.Redis(host="localhost", port=6379, db=0)
+    REDIS_CONNECTOR = redis.Redis(
+        host=config["redis"]["host"],
+        port=config["redis"]["port"],
+        db=0
+    )

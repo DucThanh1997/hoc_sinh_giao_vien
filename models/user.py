@@ -1,7 +1,8 @@
-from db import db
-from passlib.hash import pbkdf2_sha256 as sha256
-from datetime import datetime
 import json as jso
+
+from passlib.hash import pbkdf2_sha256 as sha256
+
+from db import db
 
 
 class UserModel(db.Model):
@@ -80,11 +81,6 @@ class UserModel(db.Model):
             return jso.loads(jso.dumps(res, default=str))
         else:
             return jso.loads(jso.dumps(UserModel.json(data), default=str))
-
-    @classmethod
-    def find_by_user_id(cls, user_id):
-        user = cls.query.filter_by(user_id=user_id).first()
-        return user
 
     @classmethod
     def find_by_user_id(cls, user_id):

@@ -1,6 +1,7 @@
-from db import db
 import json as jso
 import datetime
+
+from db import db
 
 
 class ExamModel(db.Model):
@@ -16,7 +17,8 @@ class ExamModel(db.Model):
 
     exam_1 = db.relationship("SubjectModel")
 
-    def __init__(self, exam_room, exam_date, exam_start_time, exam_time, subject_id):
+    def __init__(self, exam_room, exam_date,
+                 exam_start_time, exam_time, subject_id):
         self.exam_room = exam_room
         self.exam_date = exam_date
         self.exam_start_time = exam_start_time
@@ -52,7 +54,10 @@ class ExamModel(db.Model):
 
     @classmethod
     def find_by_exam_date_and_subject_id(cls, exam_date, subject_id):
-        return cls.query.filter_by(exam_id=exam_date, subject_id=subject_id).all()
+        return cls.query.filter_by(
+            exam_id=exam_date,
+            subject_id=subject_id
+        ).all()
 
     @classmethod
     def find_by_subject_id(cls, subject_id):

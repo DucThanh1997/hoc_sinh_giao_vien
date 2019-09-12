@@ -1,7 +1,6 @@
-from db import db
-from passlib.hash import pbkdf2_sha256 as sha256
-from datetime import datetime
 import json as jso
+
+from db import db
 
 
 class HistoryModel(db.Model):
@@ -20,8 +19,12 @@ class HistoryModel(db.Model):
     # 1: sinh viên
     # 2: giáo viên
 
-    class_id = db.Column(db.String(20), db.ForeignKey("class.class_id"), nullable=False)
-    user_id = db.Column(db.String(80), db.ForeignKey("user.user_id"), nullable=False)
+    class_id = db.Column(
+        db.String(20), db.ForeignKey("class.class_id"), nullable=False
+    )
+    user_id = db.Column(
+        db.String(80), db.ForeignKey("user.user_id"), nullable=False
+    )
     school_id = db.Column(
         db.String(20), db.ForeignKey("school.school_id"), nullable=False
     )

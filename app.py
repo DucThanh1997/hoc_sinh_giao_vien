@@ -1,5 +1,4 @@
 from flask import Flask
-from db import db
 from flask_jwt_extended import JWTManager
 import pymysql
 from flask_restful import Api
@@ -17,6 +16,8 @@ from resources.school import *
 from resources.marks import *
 from blacklist import BLACKLIST as BLACK_LIST
 from config import Config
+from db import db
+
 
 pymysql.install_as_MySQLdb()
 
@@ -39,17 +40,30 @@ def check_if_token_in_blacklist(decrypted_token):
 
 
 api.add_resource(
-    Classs, "/class", "/class/<string:class_id>", "/class/<int:page>/<int:per_page>"
-)
-
-api.add_resource(Exam, "/exam", "/exam/<int:id>", "/exam/<int:page>/<int:per_page>")
-
-api.add_resource(
-    Subject, "/subject", "/subject/<int:ma_mon>", "/class/<int:page>/<int:per_page>"
+    Classs, "/class",
+    "/class/<string:class_id>",
+    "/class/<int:page>/<int:per_page>"
 )
 
 api.add_resource(
-    School, "/school", "/school/<int:ma_truong>", "/school/<int:page>/<int:per_page>"
+    Exam,
+    "/exam",
+    "/exam/<int:id>",
+    "/exam/<int:page>/<int:per_page>"
+)
+
+api.add_resource(
+    Subject,
+    "/subject",
+    "/subject/<int:ma_mon>",
+    "/class/<int:page>/<int:per_page>"
+)
+
+api.add_resource(
+    School,
+    "/school",
+    "/school/<int:ma_truong>",
+    "/school/<int:page>/<int:per_page>"
 )
 
 api.add_resource(Mark, "/mark", "/mark/<int:ma_diem>")
@@ -63,11 +77,17 @@ api.add_resource(
     "/history/<string:user_id>",
     "/history/<int:page>/<int:per_page>",
 )
-api.add_resource(UserReg, "/regi", "/regi/<string:class_id>/<int:page>/<int:per_page>")
+api.add_resource(
+    UserReg,
+    "/regi",
+    "/regi/<string:class_id>/<int:page>/<int:per_page>"
+)
 api.add_resource(UserLogin, "/login")
 api.add_resource(UserLogout, "/logout")
 api.add_resource(TokenRefresh, "/refresh")
-api.add_resource(FindMaxScoreBySubject, "/maxscore_subject/<string:subject_id>")
+api.add_resource(
+    FindMaxScoreBySubject, "/maxscore_subject/<string:subject_id>"
+)
 api.add_resource(FindMaxScoreByClass, "/maxscore_class/<string:class_id>")
 api.add_resource(XemLichThi, "/lichthi/<string:user_id>")
 
